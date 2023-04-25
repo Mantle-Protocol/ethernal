@@ -1,0 +1,5 @@
+- name: Ethernal Explorer
+  uses: tryethernal/ethernal-action@v0.0.15
+  id: ethernal
+  with:
+    api_token: ${{ secrets.ETHERNAL_API_TOKEN }}
