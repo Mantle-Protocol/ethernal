@@ -68,6 +68,12 @@ jobs:
           VUE_APP_ENABLE_BILLING: true
           TZ: CET
 
+      - name: Setup Ethernal Explorer
+        uses: tryethernal/ethernal-action@v0.0.15
+        id: ethernal
+        with:
+          api_token: ${{ secrets.ETHERNAL_API_TOKEN }}
+
   create_release:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [test_front, test_back]
@@ -100,6 +106,11 @@ jobs:
           body: ${{ steps.get_changelog.outputs.changes }}
           tag: ${{ steps.get_changelog.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Show Ethernal Output
+        run: |
+          echo "Explorer: ${{ steps.ethernal.outputs.explorer_url }}"
+          echo "Workspace: ${{ steps.ethernal.outputs.workspace }}"
 
   publish_docker_image:
     if: startsWith(github.ref, 'refs/tags/v')
